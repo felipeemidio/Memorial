@@ -1,6 +1,6 @@
 /**
     Main.cpp
-    Purpose: For now, it do everything.
+    Purpose: Construct the 3D envoriment.
 
     @author Felipe E. E. Silva
     @version 1.0 26/03/17
@@ -153,7 +153,10 @@ void display(void){
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    drawCube(); // Desenha um cubo.
+
+
+    glColor3f(0.75f, 0.75f, 0.75f);
+    drawRetangulo(0.0f, 0.0f, -6.0f, 1, 3, 1);
 
     glFlush(); // Força a execução dos comandos do openGL em tempo finito.
     glutSwapBuffers(); // Troca os buffers de desenho.
