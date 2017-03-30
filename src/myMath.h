@@ -39,7 +39,7 @@ int getSign(GLfloat n);
     @param angle Is the angle in xz plane.
     @return A vector with the direction of local forward.
 */
-Vector3 getLocalForward(float angle)
+Vector3 getLocalForward(float angle);
 
 /**
     Normalize a vector3.

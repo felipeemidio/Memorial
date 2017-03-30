@@ -147,7 +147,7 @@ void keyboardAction(unsigned char key, int x, int y){
 
     // Pega o vetor de frente local.
     GLfloat radY = (angleY * M_PI)/180;
-    Vector3 localForward = getLocalForward( angle );
+    Vector3 localForward = getLocalForward( angleX );
     localForward.y = sin(radY);
     localForward = normalize(localForward);
 
