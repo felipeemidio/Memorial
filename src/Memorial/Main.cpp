@@ -52,6 +52,8 @@ void display();
 */
 void keyboardAction(unsigned char key, int x, int y);
 
+void specialKeyboardAction(int key, int x, int y) ;
+
 /**
     Pega os clicks do mouse.
 
@@ -81,6 +83,11 @@ void loadTextureFromFile(char *filename,int index)
 
 	 unsigned char* image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGBA);
 	 //printf("%d %d\n", width, height);
+	 if( image == NULL){
+        std::cout << "ERROR: HAS NO IMAGE  NAMED '" << filename << "'!" <<  std::endl;
+        //return;
+	 }
+
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &texture_id[index]);
     glBindTexture(GL_TEXTURE_2D, texture_id[index]);
@@ -94,9 +101,7 @@ void loadTextureFromFile(char *filename,int index)
 }
 
 void init_textures(){
-    loadTextureFromFile( (char*)"stone_floor.jpg", 0  );
-
-
+    loadTextureFromFile( (char*)"Texturas/stone_floor.jpg", 0  );
 }
 
 
@@ -114,12 +119,12 @@ int main(int argc, char** argv){
     //Chama a funçao que vai renderizar todos os objetos
     glutDisplayFunc( display );
     glutKeyboardFunc( keyboardAction );
+    glutSpecialFunc( specialKeyboardAction );
     glutMouseFunc( mouseClicks );
     glutMotionFunc( doRotation );
 
     init_textures();
     init();
-
 
     glutMainLoop(); // Mantém a tela em loop.
 
@@ -128,21 +133,30 @@ int main(int argc, char** argv){
 
 /// Defini as configurações iniciais.
 void init() {
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat mat_shininess[] = { 50.0 };
+   GLfloat light_position[] = { 1.0, 5.0, 0.0, 0.0 };
 
     // Posicao inicial da camera.
     pos.x = 0.0f;
     pos.y = 0.0f;
     pos.z = 0.0f;
 
-    // Cor da rela de fundo.
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    // Cor da tela de fundo.
+    glClearColor(0.5f, 0.6f, 0.9f, 1.0f);
 
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    // Especifica cor da luz e sua localização.
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
+    // Habilita o sistema de luz.
+    glEnable(GL_LIGHTING);
+    // Habilita a cor padrao GL_LIGHT0 que é a luz branca.
+    glEnable(GL_LIGHT0);
 
     // Habilita o teste de profundidade.
     glEnable(GL_DEPTH_TEST);
-
-
 
     // Faz a projeção de acordo com as coordenadas do OpenGL (é diferente dos pixel da tela do PC)
     glMatrixMode(GL_PROJECTION);
@@ -152,7 +166,6 @@ void init() {
     /* Z near */ 1.0f, /* Z far */ 100.0f);
 
     glMatrixMode(GL_MODELVIEW);
-
 
 }
 
@@ -171,10 +184,7 @@ void display(void){
     //std::cout << "  ANGLE:\n   x: " << angleX << " y: "<< angleY << std::endl;
     //std::cout << "  POSITION:\n   x: " << pos.x << " y: "<< pos.y << " z: " << pos.z << std::endl;
 
-    glColor3f(0.0f, 0.0f, 0.75f);
-    drawRetangulo(0.0f, 0.0f, -5.0f, 1.0f, 3.0f, 1.0f);
-
-    drawDoor2(0.0f, 0.0f, -7.0f, 3.0f, 3.0f, 0.5f, 0.0f, angularSpeed);
+    drawDoor2(0.0f, -2.0f, -11.0f, 3.0f, 2.0f, 0.2f, 0.0f, angularSpeed);
 
     glEnable(GL_TEXTURE_2D);
     //glEnable(GL_TEXTURE_GEN_S);
@@ -185,8 +195,9 @@ void display(void){
     glBindTexture(GL_TEXTURE_2D, texture_id[0]);
 
     glColor3f(0.75f, 0.75f, 0.75f);
-    drawSquare(0.0f, -1.0f, 0.0f, 10.0, 10.0);
-
+    //drawSquare(0.0f, -1.0f, -3.0f, 10.0, 4.0f)  ;
+    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f );
+    drawEntrada(0.0f, 0.0f, -3.0f);
 
     //glDisable(GL_TEXTURE_GEN_S);
     //glDisable(GL_TEXTURE_GEN_T);
@@ -235,7 +246,6 @@ void keyboardAction(unsigned char key, int x, int y){
             pos.x -= localForward.z * smooth ;
             pos.z -= localForward.x * smooth ;
             break;
-
         case ' ':
             if (!isDoorMoving){
                 isDoorMoving = true;
@@ -248,6 +258,28 @@ void keyboardAction(unsigned char key, int x, int y){
     //std::cout << "  angle:\n   x: " << angleX << " y: "<< angleY << std::endl;
 
     glutPostRedisplay();
+}
+
+void specialKeyboardAction(int key, int x, int y) {
+    float rotation = 1.0f;
+    switch(key)
+    {
+        case GLUT_KEY_UP:
+            angleY -= rotation;
+            break;
+        case GLUT_KEY_DOWN:
+            angleY += rotation;
+            break;
+        case GLUT_KEY_LEFT:
+            angleX -= rotation;
+            break;
+        case GLUT_KEY_RIGHT:
+            angleX += rotation;
+            break;
+    }
+
+    glutPostRedisplay();
+
 }
 
 /// Pega os clicks do mouse.

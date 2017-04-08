@@ -60,6 +60,8 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="Main.cpp" />
+		<Unit filename="Texturas/floor.jpg" />
+		<Unit filename="Texturas/floor2.jpg" />
 		<Unit filename="formas.h" />
 		<Unit filename="myMath.h" />
 		<Extensions>

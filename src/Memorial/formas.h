@@ -77,64 +77,77 @@ void drawRetangulo(float centerX, float centerY, float centerZ, float width, flo
     */
 
     glBegin(GL_QUADS);
-	// top
-	glNormal3f(1.0f, 1.0f, 1.0f);
-	glVertex3fv(v1);
-	glVertex3fv(v2);
-	glVertex3fv(v6);
-	glVertex3fv(v5);
-
+        // top
+        glNormal3f(1.0f, 1.0f, 1.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3fv(v1);
+        glTexCoord2f(0.0, 1.0); glVertex3fv(v2);
+        glTexCoord2f(1.0, 1.0); glVertex3fv(v6);
+        glTexCoord2f(1.0, 0.0); glVertex3fv(v5);
 	glEnd();
 
 	glBegin(GL_QUADS);
-	// front
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3fv(v1);
-	glVertex3fv(v2);
-	glVertex3fv(v4);
-	glVertex3fv(v3);
-
+        // front
+        glNormal3f(0.0f, 0.0f, 1.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3fv(v1);
+        glTexCoord2f(0.0, 1.0); glVertex3fv(v2);
+        glTexCoord2f(1.0, 1.0); glVertex3fv(v4);
+        glTexCoord2f(1.0, 0.0); glVertex3fv(v3);
 	glEnd();
 
 	glBegin(GL_QUADS);
-	// right
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3fv(v2);
-	glVertex3fv(v6);
-	glVertex3fv(v8);
-	glVertex3fv(v4);
-
+        // right
+        glNormal3f(1.0f, 0.0f, 0.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3fv(v2);
+        glTexCoord2f(0.0, 1.0); glVertex3fv(v6);
+        glTexCoord2f(1.0, 1.0); glVertex3fv(v8);
+        glTexCoord2f(1.0, 0.0); glVertex3fv(v4);
 	glEnd();
 
 	glBegin(GL_QUADS);
-	// left
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3fv(v1);
-	glVertex3fv(v5);
-	glVertex3fv(v7);
-	glVertex3fv(v3);
-
+        // left
+        glNormal3f(-1.0f, 0.0f, 0.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3fv(v1);
+        glTexCoord2f(0.0, 1.0); glVertex3fv(v5);
+        glTexCoord2f(1.0, 1.0); glVertex3fv(v7);
+        glTexCoord2f(1.0, 0.0); glVertex3fv(v3);
 	glEnd();
 
 	glBegin(GL_QUADS);
-	// bottom
-	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3fv(v3);
-	glVertex3fv(v4);
-	glVertex3fv(v8);
-	glVertex3fv(v7);
-
+        // bottom
+        glNormal3f(0.0f, -1.0f, 0.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3fv(v3);
+        glTexCoord2f(0.0, 1.0); glVertex3fv(v4);
+        glTexCoord2f(1.0, 1.0); glVertex3fv(v8);
+        glTexCoord2f(1.0, 0.0); glVertex3fv(v7);
 	glEnd();
 
 	glBegin(GL_QUADS);
-	// back
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3fv(v5);
-	glVertex3fv(v6);
-	glVertex3fv(v8);
-	glVertex3fv(v7);
-
+        // back
+        glNormal3f(0.0f, 0.0f, -1.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3fv(v5);
+        glTexCoord2f(0.0, 1.0); glVertex3fv(v6);
+        glTexCoord2f(1.0, 1.0); glVertex3fv(v8);
+        glTexCoord2f(1.0, 0.0); glVertex3fv(v7);
 	glEnd();
+}
+
+
+
+void drawRampa(float originX, float originY, float originZ, float width, float height, float angle, float angleRotation){
+    glPushMatrix();
+
+    glTranslatef(originX, originY, originZ);
+    glRotatef(angleRotation, 0.0f, 1.0f, 0.0f);
+    glTranslatef(-originX, -originY, -originZ);
+
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0, 0.0); glVertex3f( originX + (width)/2, originY - angle, originZ + (height/2) );
+        glTexCoord2f(0.0, 1.0); glVertex3f( originX - (width)/2, originY- angle, originZ + (height/2) );
+        glTexCoord2f(1.0, 1.0); glVertex3f( originX - (width)/2, originY + angle, originZ - (height/2) );
+        glTexCoord2f(1.0, 0.0); glVertex3f( originX + (width)/2, originY + angle, originZ - (height/2) );
+	glEnd();
+
+	glPopMatrix();
 }
 
 void drawSquare(float originX, float originY, float originZ, float width, float height){
@@ -146,6 +159,51 @@ void drawSquare(float originX, float originY, float originZ, float width, float 
         glTexCoord2f(1.0, 1.0); glVertex3f( originX - (width)/2, originY, originZ - (height/2) );
         glTexCoord2f(1.0, 0.0); glVertex3f( originX + (width)/2, originY, originZ - (height/2) );
 	glEnd();
+
+}
+
+void drawEntrada(float originX, float originY, float originZ){
+    drawRetangulo(4.0f, -1.5f, -3.0f, 8.0f, 1.0f, 4.0f) ;
+    drawRetangulo(-4.0f, -1.5f, -3.0f, 8.0f, 1.0f, 4.0f) ;
+    drawRetangulo(0.0f, -2.5f, -1.5, 2, 2, 1);
+    drawRetangulo(0.0f, -3.5f, -6.0f, 20.0f, 1.0f, 10.0f) ;
+    drawRetangulo(-4.5f, -2.5f, -3.0f, 7.0f, 1.0f, 4.0f) ;
+    drawRetangulo(4.5f, -2.5f, -3.0f, 7.0f, 1.0f, 4.0f) ;
+
+    glPushMatrix();
+    glTranslatef(0.0f, -1.5f, -5.0f);
+    glRotatef(15.0f, 1.0f, 0.0f, 0.0f);
+    glTranslatef(0.0f, 1.5f, 5.0f);
+
+    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f , 0.0f);
+    drawRetangulo(0.0f, -1.5f, -7.0f, 2.0f, 1.0f, 4.0f);
+    glPopMatrix();
+
+    drawRetangulo(-9.0f, -2.0f, -5.0f, 2.0f, 2.0f , 8.0f);
+    drawRetangulo(9.0f, -2.0f, -5.0f, 2.0f, 2.0f , 8.0f);
+
+    glPushMatrix();
+    glTranslatef(-4.0f, -2.0f, -7.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glRotatef(15.0f, 2.0f, 0.0f, 0.0f);
+
+    glTranslatef(4.0f, 1.5f, 7.0f);
+
+    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f , 0.0f);
+    drawRetangulo(-4.0f, -2.0f, -7.0f, 2.0f, 1.0f, 8.0f);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(4.0f, -2.0f, -7.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glRotatef(-15.0f, 2.0f, 0.0f, 0.0f);
+
+    glTranslatef(-4.0f, 1.5f, 7.0f);
+
+    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f , 0.0f);
+    drawRetangulo(4.0f, -2.0f, -7.0f, 2.0f, 1.0f, 8.0f);
+    glPopMatrix();
+
 
 }
 
