@@ -1,6 +1,6 @@
 /**
     formas.h
-    Purpose: Serve as a library to draw some polygons.
+    Purpose: Used as a library to draw some polygons.
 
     @author Felipe E. E. Silva
     @version 1.0 30/03/17
@@ -135,6 +135,18 @@ void drawRetangulo(float centerX, float centerY, float centerZ, float width, flo
 	glVertex3fv(v7);
 
 	glEnd();
+}
+
+void drawSquare(float originX, float originY, float originZ, float width, float height){
+
+    glBegin(GL_QUADS);
+        //glNormal3f( 0.0f, 1.0f, 0.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3f( originX + (width)/2, originY, originZ + (height/2) );
+        glTexCoord2f(0.0, 1.0); glVertex3f( originX - (width)/2, originY, originZ + (height/2) );
+        glTexCoord2f(1.0, 1.0); glVertex3f( originX - (width)/2, originY, originZ - (height/2) );
+        glTexCoord2f(1.0, 0.0); glVertex3f( originX + (width)/2, originY, originZ - (height/2) );
+	glEnd();
+
 }
 
 /// Desenha uma porta.

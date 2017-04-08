@@ -14,6 +14,7 @@
 
 #include "myMath.h"
 #include "formas.h"
+#include "SOIL.h"
 
 bool pressKey = false;
 bool click = false;
@@ -28,6 +29,9 @@ GLfloat angleY = 0.0f;
 
 float x_old = 0;
 float y_old = 0;
+
+//texture variables
+GLuint texture_id[9];
 
 /**
     Defini as configurações iniciais.
@@ -70,6 +74,31 @@ void doRotation(int x, int y);
 */
 void moveDoor();
 
+void loadTextureFromFile(char *filename,int index)
+{
+
+	 int width, height;
+
+	 unsigned char* image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGBA);
+	 //printf("%d %d\n", width, height);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glGenTextures(1, &texture_id[index]);
+    glBindTexture(GL_TEXTURE_2D, texture_id[index]);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+}
+
+void init_textures(){
+    loadTextureFromFile( (char*)"stone_floor.jpg", 0  );
+
+
+}
+
 
 /// Controla as operações do programa.
 int main(int argc, char** argv){
@@ -77,16 +106,20 @@ int main(int argc, char** argv){
     // Carrega as funções do GLUT.
     glutInit(&argc, argv);
 
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // Seleciona as bit-masks (2 desenhos simultaneos e cores RGB).
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // Seleciona as bit-masks (2 desenhos simultaneos e cores RGB).
 
     glutInitWindowSize(1000,800); // Tamanho da Tela.
     glutInitWindowPosition (200, 200); // Posição inicial da Tela.
     glutCreateWindow ("Memorial da Republica 3D"); // Cria uma janela.
+    //Chama a funçao que vai renderizar todos os objetos
+    glutDisplayFunc( display );
     glutKeyboardFunc( keyboardAction );
     glutMouseFunc( mouseClicks );
     glutMotionFunc( doRotation );
 
+    init_textures();
     init();
+
 
     glutMainLoop(); // Mantém a tela em loop.
 
@@ -95,31 +128,39 @@ int main(int argc, char** argv){
 
 /// Defini as configurações iniciais.
 void init() {
-    // Cor da rela de fundo.
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     // Posicao inicial da camera.
     pos.x = 0.0f;
     pos.y = 0.0f;
     pos.z = 0.0f;
 
-    /* Use depth buffering for hidden surface elimination. */
+    // Cor da rela de fundo.
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+
+
+    // Habilita o teste de profundidade.
     glEnable(GL_DEPTH_TEST);
+
+
+
     // Faz a projeção de acordo com as coordenadas do OpenGL (é diferente dos pixel da tela do PC)
     glMatrixMode(GL_PROJECTION);
 
-    gluPerspective( /* field of view in degree */ 40.0,
-    /* aspect ratio */ 1.0,
-    /* Z near */ 1.0, /* Z far */ 30.0);
+    gluPerspective( /* field of view in degree */ 40.0f,
+    /* aspect ratio */ 1.0f,
+    /* Z near */ 1.0f, /* Z far */ 100.0f);
 
     glMatrixMode(GL_MODELVIEW);
 
-    //Chama a funçao que vai renderizar todos os objetos
-    glutDisplayFunc( display );
+
 }
 
 /// Desenha na tela.
 void display(void){
+
+    /* Usa depth buffering para eliminar as camadas escondidas. */
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     glLoadIdentity(); // Zera a matrix para a matrix identidade.
 
@@ -130,16 +171,30 @@ void display(void){
     //std::cout << "  ANGLE:\n   x: " << angleX << " y: "<< angleY << std::endl;
     //std::cout << "  POSITION:\n   x: " << pos.x << " y: "<< pos.y << " z: " << pos.z << std::endl;
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glColor3f(0.0f, 0.0f, 0.75f);
+    drawRetangulo(0.0f, 0.0f, -5.0f, 1.0f, 3.0f, 1.0f);
+
+    drawDoor2(0.0f, 0.0f, -7.0f, 3.0f, 3.0f, 0.5f, 0.0f, angularSpeed);
+
+    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_GEN_S);
+    //glEnable(GL_TEXTURE_GEN_T);
+
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id[0]);
 
     glColor3f(0.75f, 0.75f, 0.75f);
-    drawRetangulo(0.0f, 0.0f, -6.0f, 1.0f, 3.0f, 1.0f);
+    drawSquare(0.0f, -1.0f, 0.0f, 10.0, 10.0);
 
-    drawDoor2(0.0f, 0.0f, -6.0f, 3.0f, 3.0f, 0.5f, 0.0f, angularSpeed);
 
+    //glDisable(GL_TEXTURE_GEN_S);
+    //glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_2D);
 
     glFlush(); // Força a execução dos comandos do openGL em tempo finito.
     glutSwapBuffers(); // Troca os buffers de desenho.
+
 }
 
 /// Ações de acordo com a tecla inserida.
