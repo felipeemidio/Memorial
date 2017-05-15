@@ -14,6 +14,7 @@
 
 #include "myMath.h"
 #include "formas.h"
+#include "memorial.h"
 #include "SOIL.h"
 
 bool pressKey = false;
@@ -100,8 +101,29 @@ void loadTextureFromFile(char *filename,int index)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 }
 
-void init_textures(){
-    loadTextureFromFile( (char*)"Texturas/stone_floor.jpg", 0  );
+void init_textures() {
+    loadTextureFromFile( (char*)"Texturas/cement.jpg", 0  );
+    loadTextureFromFile( (char*)"Texturas/stone01.jpg", 1  );
+    loadTextureFromFile( (char*)"Texturas/stone02.jpg", 2  );
+    loadTextureFromFile( (char*)"Texturas/old_white_wall.jpg", 4  );
+    loadTextureFromFile( (char*)"Texturas/white_wall2.jpg", 3  );
+    loadTextureFromFile( (char*)"Texturas/stone04.jpg", 5  );
+    loadTextureFromFile( (char*)"Texturas/floor_black.jpg", 6  );
+    loadTextureFromFile( (char*)"Texturas/pavimento.jpg", 7  );
+    loadTextureFromFile( (char*)"Texturas/grass.jpg", 8  );
+    loadTextureFromFile( (char*)"Texturas/brasil.jpg", 9  );
+    loadTextureFromFile( (char*)"Texturas/madeira.jpg", 10  );
+    loadTextureFromFile( (char*)"Texturas/couro.jpg", 11  );
+    loadTextureFromFile( (char*)"Texturas/durval.jpg", 12  );
+    loadTextureFromFile( (char*)"Texturas/marcelo.jpg", 13  );
+    loadTextureFromFile( (char*)"Texturas/alessandra.jpg", 14  );
+    loadTextureFromFile( (char*)"Texturas/rubens.jpg", 15  );
+    loadTextureFromFile( (char*)"Texturas/harnon.jpg", 16  );
+    loadTextureFromFile( (char*)"Texturas/caio.jpg", 17  );
+     loadTextureFromFile( (char*)"Texturas/victor.jpg", 18 );
+     loadTextureFromFile( (char*)"Texturas/tamy.jpg", 19 );
+
+
 }
 
 
@@ -113,9 +135,14 @@ int main(int argc, char** argv){
 
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // Seleciona as bit-masks (2 desenhos simultaneos e cores RGB).
 
+
     glutInitWindowSize(1000,800); // Tamanho da Tela.
     glutInitWindowPosition (200, 200); // Posição inicial da Tela.
     glutCreateWindow ("Memorial da Republica 3D"); // Cria uma janela.
+
+    init_textures();
+    init();
+
     //Chama a funçao que vai renderizar todos os objetos
     glutDisplayFunc( display );
     glutKeyboardFunc( keyboardAction );
@@ -123,8 +150,6 @@ int main(int argc, char** argv){
     glutMouseFunc( mouseClicks );
     glutMotionFunc( doRotation );
 
-    init_textures();
-    init();
 
     glutMainLoop(); // Mantém a tela em loop.
 
@@ -133,10 +158,12 @@ int main(int argc, char** argv){
 
 /// Defini as configurações iniciais.
 void init() {
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat mat_shininess[] = { 50.0 };
-   GLfloat light_position[] = { 1.0, 5.0, 0.0, 0.0 };
 
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 50.0 };
+    GLfloat light_position[] = { 1.0, 5.0, 0.0, 0.0 };
+
+    GLfloat light_ambient[4]={0.2,0.2,0.2,1.0};
     // Posicao inicial da camera.
     pos.x = 0.0f;
     pos.y = 0.0f;
@@ -145,8 +172,10 @@ void init() {
     // Cor da tela de fundo.
     glClearColor(0.5f, 0.6f, 0.9f, 1.0f);
 
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
     // Especifica cor da luz e sua localização.
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
@@ -154,6 +183,8 @@ void init() {
     glEnable(GL_LIGHTING);
     // Habilita a cor padrao GL_LIGHT0 que é a luz branca.
     glEnable(GL_LIGHT0);
+
+    glEnable(GL_COLOR_MATERIAL);
 
     // Habilita o teste de profundidade.
     glEnable(GL_DEPTH_TEST);
@@ -184,23 +215,72 @@ void display(void){
     //std::cout << "  ANGLE:\n   x: " << angleX << " y: "<< angleY << std::endl;
     //std::cout << "  POSITION:\n   x: " << pos.x << " y: "<< pos.y << " z: " << pos.z << std::endl;
 
-    drawDoor2(0.0f, -2.0f, -11.0f, 3.0f, 2.0f, 0.2f, 0.0f, angularSpeed);
+    drawDoor2(0.0f, -1.5f, -12.0f, 3.0f, 3.0f, 0.2f, 0.0f, angularSpeed);
+    drawDoor2(0.0f, -1.5f, -27.0f, 3.0f, 3.0f, 0.2f, 180.0f, angularSpeed);
+
+
+
+
+
+
+
+
+    drawCadeira(5.0f, -2.5f, -14.0f);
+
+
+
+    //cilindro(0.0f, 0.0f, -20.0f, 10.5f, 0.5f, 20);
+    //drawRing(5.0f, 0.5f, -20.0f, 10.5f, 0.5f, 30, 0.05f, 90.0f, 99.0f, 1.9);
+
+    // bancos
+    drawBanco(0.0f, -2.75f, -5.25f, 3.0f, 0.3f, 0.5f);
+    glPushMatrix();
+    glTranslatef( 1.25f, -2.75f, -6.5f);
+    glRotatef(90, 0.0, 1.0, 0.0);
+    drawBanco(0.0f, 0.0f, 0.0f, 2.0f, 0.3f, 0.5f);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef( -1.25f, -2.75f, -6.5f);
+    glRotatef(90, 0.0, 1.0, 0.0);
+    drawBanco(0.0f, 0.0f, 0.0f, 2.0f, 0.3f, 0.5f);
+    glPopMatrix();
+
+    //drawSphere(0.0, 3.0, -4.0, 0.5);
+
+    drawStar(0.0f, -2.0f, -5.06f);
 
     glEnable(GL_TEXTURE_2D);
-    //glEnable(GL_TEXTURE_GEN_S);
-    //glEnable(GL_TEXTURE_GEN_T);
 
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
-    glBindTexture(GL_TEXTURE_2D, texture_id[0]);
 
-    glColor3f(0.75f, 0.75f, 0.75f);
-    //drawSquare(0.0f, -1.0f, -3.0f, 10.0, 4.0f)  ;
-    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f );
-    drawEntrada(0.0f, 0.0f, -3.0f);
+    glBindTexture(GL_TEXTURE_2D, texture_id[12]);
+    drawCoiso(0.0f,  -1.9f, -16.0f, 0.0f);
 
-    //glDisable(GL_TEXTURE_GEN_S);
-    //glDisable(GL_TEXTURE_GEN_T);
+    glBindTexture(GL_TEXTURE_2D, texture_id[13]);
+    drawCoiso(3.0f,  -1.9f, -17.0f, 45.0f);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id[14]);
+    drawCoiso(4.0f,  -1.9f, -19.0f, 90.0f);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id[15]);
+    drawCoiso(3.0f,  -1.9f, -21.0f, 135.0f);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id[16]);
+    drawCoiso(0.0f,  -1.9f, -23.0f, 180.0f);
+    glBindTexture(GL_TEXTURE_2D, texture_id[17]);
+    drawCoiso(-3.0f,  -1.9f, -17.0f, -45.0f);
+    glBindTexture(GL_TEXTURE_2D, texture_id[18]);
+    drawCoiso(-4.0f,  -1.9f, -19.0f, -90.0f);
+    glBindTexture(GL_TEXTURE_2D, texture_id[19]);
+    drawCoiso(-3.0f,  -1.9f, -21.0f, -135.0f);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id[10]);
+    drawDoor2(8.0f, -1.5f, -18.0f, 3.0f, 3.5f, 0.2f, 90.0f, angularSpeed);
+
+    drawEntrada(0.0f, 0.0f, -3.0f, texture_id);
+
     glDisable(GL_TEXTURE_2D);
 
     glFlush(); // Força a execução dos comandos do openGL em tempo finito.
@@ -299,7 +379,7 @@ void mouseClicks(int button, int state, int x, int y) {
 void doRotation(int x, int y){
     //std::cout << x-x_old << " x " << x << " x_old " << x_old << std::endl;
 
-    float smoothRotation = 0.01;
+    float smoothRotation = 0.05;
 
     // Cotrola força de rotação.
     if(x - x_old > 100 or x_old - x > 100){

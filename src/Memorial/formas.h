@@ -23,32 +23,16 @@
 void drawRetangulo(float centerX, float centerY, float centerZ, float width, float height, float depth );
 
 /**
-    Desenha uma porta.
+    Desenha um quadrado.
 
-    @param centerX Posicao no eixo x onde se encontra o centro do poligono.
-    @param centerY Posicao no eixo y onde se encontra o centro do poligono.
-    @param centerZ Posicao no eixo z onde se encontra o centro do poligono.
-    @param width Largura do poligono.
-    @param height Altura do poligono.
-    @param depth Profundidade do poligono.
-    @param angle o angulo do vetor normal a porta (frente local)
-    @param angularSpeed velocidade ao qual a porta abre.
+    @param centerX Posicao no eixo x onde se encontra o centro do quadrado.
+    @param centerY Posicao no eixo y onde se encontra o centro do quadrado.
+    @param centerZ Posicao no eixo z onde se encontra o centro do quadrado.
+    @param width Largura do quadrado.
+    @param height Altura do quadrado.
+    @param depth Profundidade do quadrado.
 */
-void drawDoor(float centerX, float centerY, float centerZ, float width, float height, float depth, float angle, float angularSpeed);
-
-/**
-    Desenha uma porta com 2 metades.
-
-    @param centerX Posicao no eixo x onde se encontra o centro do poligono.
-    @param centerY Posicao no eixo y onde se encontra o centro do poligono.
-    @param centerZ Posicao no eixo z onde se encontra o centro do poligono.
-    @param width Largura do poligono.
-    @param height Altura do poligono.
-    @param depth Profundidade do poligono.
-    @param angle o angulo do vetor normal a porta (frente local)
-    @param angularSpeed velocidade ao qual a porta abre.
-*/
-void drawDoor2(float centerX, float centerY, float centerZ, float width, float height, float depth, float angle, float angularSpeed);
+void  drawSquare( float originX, float originY, float originZ, float width, float height );
 
 
 /// Desenha um paralelepipedo retangulo.
@@ -131,29 +115,10 @@ void drawRetangulo(float centerX, float centerY, float centerZ, float width, flo
 	glEnd();
 }
 
-
-
-void drawRampa(float originX, float originY, float originZ, float width, float height, float angle, float angleRotation){
-    glPushMatrix();
-
-    glTranslatef(originX, originY, originZ);
-    glRotatef(angleRotation, 0.0f, 1.0f, 0.0f);
-    glTranslatef(-originX, -originY, -originZ);
+///Desenha um quadrado.
+void  drawSquare( float originX, float originY, float originZ, float width, float height ) {
 
     glBegin(GL_QUADS);
-        glTexCoord2f(0.0, 0.0); glVertex3f( originX + (width)/2, originY - angle, originZ + (height/2) );
-        glTexCoord2f(0.0, 1.0); glVertex3f( originX - (width)/2, originY- angle, originZ + (height/2) );
-        glTexCoord2f(1.0, 1.0); glVertex3f( originX - (width)/2, originY + angle, originZ - (height/2) );
-        glTexCoord2f(1.0, 0.0); glVertex3f( originX + (width)/2, originY + angle, originZ - (height/2) );
-	glEnd();
-
-	glPopMatrix();
-}
-
-void drawSquare(float originX, float originY, float originZ, float width, float height){
-
-    glBegin(GL_QUADS);
-        //glNormal3f( 0.0f, 1.0f, 0.0f);
         glTexCoord2f(0.0, 0.0); glVertex3f( originX + (width)/2, originY, originZ + (height/2) );
         glTexCoord2f(0.0, 1.0); glVertex3f( originX - (width)/2, originY, originZ + (height/2) );
         glTexCoord2f(1.0, 1.0); glVertex3f( originX - (width)/2, originY, originZ - (height/2) );
@@ -162,103 +127,161 @@ void drawSquare(float originX, float originY, float originZ, float width, float 
 
 }
 
-void drawEntrada(float originX, float originY, float originZ){
-    drawRetangulo(4.0f, -1.5f, -3.0f, 8.0f, 1.0f, 4.0f) ;
-    drawRetangulo(-4.0f, -1.5f, -3.0f, 8.0f, 1.0f, 4.0f) ;
-    drawRetangulo(0.0f, -2.5f, -1.5, 2, 2, 1);
-    drawRetangulo(0.0f, -3.5f, -6.0f, 20.0f, 1.0f, 10.0f) ;
-    drawRetangulo(-4.5f, -2.5f, -3.0f, 7.0f, 1.0f, 4.0f) ;
-    drawRetangulo(4.5f, -2.5f, -3.0f, 7.0f, 1.0f, 4.0f) ;
+void base(GLfloat raio, GLint segmentos)
+{
+	GLfloat  alpha;
+	int      i;
 
-    glPushMatrix();
-    glTranslatef(0.0f, -1.5f, -5.0f);
-    glRotatef(15.0f, 1.0f, 0.0f, 0.0f);
-    glTranslatef(0.0f, 1.5f, 5.0f);
+    alpha = 2*getPI() / segmentos;
 
-    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f , 0.0f);
-    drawRetangulo(0.0f, -1.5f, -7.0f, 2.0f, 1.0f, 4.0f);
-    glPopMatrix();
-
-    drawRetangulo(-9.0f, -2.0f, -5.0f, 2.0f, 2.0f , 8.0f);
-    drawRetangulo(9.0f, -2.0f, -5.0f, 2.0f, 2.0f , 8.0f);
-
-    glPushMatrix();
-    glTranslatef(-4.0f, -2.0f, -7.0f);
-    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-    glRotatef(15.0f, 2.0f, 0.0f, 0.0f);
-
-    glTranslatef(4.0f, 1.5f, 7.0f);
-
-    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f , 0.0f);
-    drawRetangulo(-4.0f, -2.0f, -7.0f, 2.0f, 1.0f, 8.0f);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(4.0f, -2.0f, -7.0f);
-    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-    glRotatef(-15.0f, 2.0f, 0.0f, 0.0f);
-
-    glTranslatef(-4.0f, 1.5f, 7.0f);
-
-    //drawRampa(0.0f, 0.0f, -9.0f, 3.0f, 8.0f , 1.0f , 0.0f);
-    drawRetangulo(4.0f, -2.0f, -7.0f, 2.0f, 1.0f, 8.0f);
-    glPopMatrix();
-
-
+	glBegin(GL_POLYGON);
+		glNormal3f(0.0,0.0,1.0);
+		for(i=0; i<segmentos ;i++)
+		{
+			glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,0.0);
+		}
+	glEnd();
 }
 
-/// Desenha uma porta.
-void drawDoor(float centerX, float centerY, float centerZ, float width, float height, float depth, float angle, float angularSpeed) {
+void corpo( GLfloat raio, GLfloat altura, GLint segmentos)
+{
+	GLfloat  alpha;
+	int i;
 
-    Vector3 localForward = getLocalForward( angle );
+	alpha = 2*getPI() / segmentos;
 
-    std::cout << "Foward:\n   X: " << localForward.x << " Z: " << localForward.z << std::endl;
+	glBegin(GL_QUADS);
+		for(i=0; i<segmentos ;i++)
+		{
+			glNormal3f(cos(alpha*i),sin(alpha*i),0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,altura/2);
+			glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,-altura/2);
+			glNormal3f(cos(alpha*(i+1)),sin(alpha*(i+1)),0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i+1))*raio,sin(alpha*(i+1))*raio,-altura/2);
+			glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i+1))*raio,sin(alpha*(i+1))*raio,altura/2);
+		}
+	glEnd();
+}
 
-    glColor3f(0.8f, 0.0f, 0.0f); // Cor vermelha
-
-    // Posiciona a primeira porta
+void drawRing( float originX, float originY, float originZ,  GLfloat raio, GLfloat altura, GLint segmentos,  GLfloat espessura,
+              float rotationX, float rotationY, float rotationZ, float quad){
     glPushMatrix();
-    glTranslatef( centerX , centerY, centerZ );
-    glRotatef( angularSpeed, 0.0f, 1.0f, 0.0f);
-    glTranslatef( -( width/4 )*localForward.z, 0.0f, (width/4)*localForward.x );
-    glRotatef( angle, 0.0f, 1.0f, 0.0f);
+    glTranslatef(originX, originY, originZ);
+    glRotatef(rotationX, 1.0f, 0.0f, 0.0f);
+    glRotatef(rotationY, 0.0f, 1.0f, 0.0f);
+    glRotatef(rotationZ, 0.0f, 0.0f, 1.0f);
 
-    // Desenha a porta.
-    drawRetangulo( 0.0f, 0.0f, 0.0f , width/2, height, depth);
-    // Back to the origin position.
+
+
+    GLfloat  alpha;
+	int i;
+
+    if(quad < 0 || quad >= 2 ){
+            alpha = 2*getPI() / segmentos;
+    }
+    else {
+            alpha = quad*getPI() / segmentos;
+    }
+
+
+	glBegin(GL_QUADS);
+		for(i=0; i<segmentos ;i++)
+		{
+			glNormal3f(cos(alpha*i),sin(alpha*i),0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,altura/2);
+			glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,-altura/2);
+			glNormal3f(cos(alpha*(i+1)),sin(alpha*(i+1)),0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i+1))*raio,sin(alpha*(i+1))*raio,-altura/2);
+			glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i+1))*raio,sin(alpha*(i+1))*raio,altura/2);
+		}
+	glEnd();
+
+
+	GLfloat raio2 = raio * (1 - espessura);
+	glBegin(GL_QUADS);
+		for(i=0; i<segmentos ;i++)
+		{
+			glNormal3f(cos(alpha*i),sin(alpha*i),0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio2,sin(alpha*i)*raio2,altura/2);
+			glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio2,sin(alpha*i)*raio2,-altura/2);
+			glNormal3f(cos(alpha*(i+1)),sin(alpha*(i+1)),0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i+1))*raio2,sin(alpha*(i+1))*raio2,-altura/2);
+			glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i+1))*raio2,sin(alpha*(i+1))*raio2,altura/2);
+		}
+	glEnd();
+
+	glBegin(GL_QUADS);
+		for(i=0; i<segmentos ;i++)
+		{
+			glNormal3f(0.0f, 1.0f, 0.0f);
+			glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,altura/2);
+			glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio2,sin(alpha*i)*raio2,altura/2);
+			glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i+1))*raio2,sin(alpha*(i+1))*raio2,altura/2);
+			glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i+1))*raio,sin(alpha*(i+1))*raio,altura/2);
+		}
+	glEnd();
+
+	glBegin(GL_QUADS);
+		for(i=0; i<segmentos ;i++)
+		{
+			glNormal3f(0.0f, -1.0f, 0.0f);
+			glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,-altura/2);
+			glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio2,sin(alpha*i)*raio2,-altura/2);
+			glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i+1))*raio2,sin(alpha*(i+1))*raio2, -altura/2);
+			glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i+1))*raio,sin(alpha*(i+1))*raio, -altura/2);
+		}
+	glEnd();
+
+	glBegin(GL_QUADS);
+        i = segmentos;
+        glNormal3f(1.0f, 0.0f, 0.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,altura/2);
+        glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,-altura/2);
+        glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i))*raio2,sin(alpha*(i))*raio2, -altura/2);
+        glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i))*raio2,sin(alpha*(i))*raio2, altura/2);
+
+        i=0;
+        glNormal3f(-1.0f, 0.0f, 0.0f);
+        glTexCoord2f(0.0, 0.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,altura/2);
+        glTexCoord2f(0.0, 1.0); glVertex3f(cos(alpha*i)*raio,sin(alpha*i)*raio,-altura/2);
+        glTexCoord2f(1.0, 1.0); glVertex3f(cos(alpha*(i))*raio2,sin(alpha*(i))*raio2, -altura/2);
+        glTexCoord2f(1.0, 0.0); glVertex3f(cos(alpha*(i))*raio2,sin(alpha*(i))*raio2, altura/2);
+
+	glEnd();
+
+
     glPopMatrix();
 }
 
-/// Desenha uma porta com 2 metades.
-void drawDoor2(float centerX, float centerY, float centerZ, float width, float height, float depth, float angle, float angularSpeed){
+void drawSphere(float originX, float originY, float originZ, GLfloat radius){
 
-    Vector3 localForward = getLocalForward( angle );
-
-    glColor3f(0.8f, 0.0f, 0.0f); // Cor vermelha
-
-    // Posiciona a primeira porta
     glPushMatrix();
-    glTranslatef( centerX +(width/2)*localForward.z , centerY, centerZ - (width/2)*localForward.x );
-    glRotatef( -angularSpeed, 0.0f, 1.0f, 0.0f);
-    glTranslatef( -( width/4 )*localForward.z, 0.0f, (width/4)*localForward.x );
-    glRotatef( angle, 0.0f, 1.0f, 0.0f);
-    // Desenha a porta.
-    drawRetangulo( 0.0f, 0.0f, 0.0f , width/2, height, depth);
-    // Back to the origin position.
+    glTranslatef(originX, originY, originZ);
+    glutSolidSphere(radius, 50, 50);
     glPopMatrix();
+}
 
-    glColor3f(0.0f, 0.8f, 0.0f); // cor verde.
-
-    // Posiciona a segunda porta porta
+void cilindro( float originX, float originY, float originZ, GLfloat raioBase, GLfloat altura, GLint segmentos)
+{
     glPushMatrix();
-    glTranslatef( centerX -(width/2)*localForward.z, centerY, centerZ + (width/2)*localForward.x);
-    glRotatef( angularSpeed, 0.0f, 1.0f, 0.0f);
-    glTranslatef( ( width/4 )*localForward.z, 0.0f, -(width/4)*localForward.x );
-    glRotatef( angle, 0.0f, 1.0f, 0.0f);
-    //Desenha outra porta.
-    drawRetangulo( 0.0f, 0.0f, 0.0f , width/2, height, depth);
-    // Back to the origin position.
-    glPopMatrix();
+    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+    glTranslatef(originX, originZ, -originY);
+
+	glPushMatrix();
+		glTranslatef(0.0,0.0,altura/2);
+		base(raioBase,segmentos);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0,0.0,-altura/2);
+        glRotatef(180,1,0,0); // para as normais ficarem para fora
+		base(raioBase,segmentos);
+	glPopMatrix();
+
+	corpo(raioBase, altura, segmentos);
+
+	glPopMatrix();
+
 }
 
 #endif

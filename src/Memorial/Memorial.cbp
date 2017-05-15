@@ -63,6 +63,7 @@
 		<Unit filename="Texturas/floor.jpg" />
 		<Unit filename="Texturas/floor2.jpg" />
 		<Unit filename="formas.h" />
+		<Unit filename="memorial.h" />
 		<Unit filename="myMath.h" />
 		<Extensions>
 			<envvars />

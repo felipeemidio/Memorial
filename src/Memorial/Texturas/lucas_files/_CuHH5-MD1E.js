@@ -1,0 +1,4 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["oNjTV"]); }
+
+__d('FantaTypeJoinableThread',['immutable'],(function a(b,c,d,e,f,g){'use strict';var h,i,j={admins:[],approvalMode:0,associatedObject:null,description:null,friendsInParticipants:[],imageURL:null,isViewerSubscribed:false,joinableMode:{mode:0,link:''},linkHash:'',participants:[],threadID:null,threadFBID:null,threadName:null};h=babelHelpers.inherits(k,c('immutable').Record(j));i=h&&h.prototype;function k(){h.apply(this,arguments);}f.exports=k;}),null);
+__d("XGroupsJoinChatController",["XController"],(function a(b,c,d,e,f,g){f.exports=c("XController").create("\/groups\/join_chat\/",{link_hash:{type:"String"}});}),null);

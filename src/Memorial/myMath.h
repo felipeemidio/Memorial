@@ -49,6 +49,10 @@ Vector3 getLocalForward(float angle);
 */
 Vector3 normalize(Vector3 v);
 
+double getPI(){
+    return M_PI;
+}
+
 /// Return the absolute value of a number.
 GLfloat getAbs( GLfloat n){
     if(n > 0)

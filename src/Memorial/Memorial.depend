@@ -7,7 +7,7 @@
 	<X11/X.h>
 	<X11/keysym.h>
 
-1491619795 source:/home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/Main.cpp
+1494843292 source:/home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/Main.cpp
 	<iostream>
 	<GL/gl.h>
 	<GL/glu.h>
@@ -15,12 +15,13 @@
 	<math.h>
 	"myMath.h"
 	"formas.h"
+	"memorial.h"
 	"SOIL.h"
 
-1490904890 /home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/myMath.h
+1491966359 /home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/myMath.h
 	<math.h>
 
-1491622628 /home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/formas.h
+1494824826 /home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/formas.h
 	"myMath.h"
 
 1215465208 /home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/SOIL.h
@@ -83,4 +84,7 @@
 	<GL/glut.h>
 	<stdlib.h>
 	<stdio.h>
+
+1494842129 /home/felipe/Documentos/Programacao/CPP/OpenGL/MemorialDaRepublica/src/Memorial/memorial.h
+	"formas.h"
 
