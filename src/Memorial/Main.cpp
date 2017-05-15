@@ -172,6 +172,9 @@ void init() {
     // Cor da tela de fundo.
     glClearColor(0.5f, 0.6f, 0.9f, 1.0f);
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);

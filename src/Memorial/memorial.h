@@ -46,6 +46,9 @@ void drawDoor2(float centerX, float centerY, float centerZ, float width, float h
 
 void drawEntrada ( float originX, float originY, float originZ , GLuint *texture_id) {
     glBindTexture(GL_TEXTURE_2D, texture_id[-1]);
+
+    glColor4f(1, 1, 1, 0.5);
+
     drawRetangulo(-3.0f, -1.5f, -12.0f, 3.0f, 3.0f, 0.1f) ;
     drawRetangulo(3.0f, -1.5f, -12.0f, 3.0f, 3.0f, 0.1f) ;
 
@@ -89,6 +92,8 @@ void drawEntrada ( float originX, float originY, float originZ , GLuint *texture
     glRotatef(35.0f, 0.0f, 1.0f, 0.0f);
     drawRetangulo(0.0f, 0.0f, 0.0f, 1.0f, 3.0f, 0.1f) ;
     glPopMatrix();
+
+    glColor4f(1, 1, 1, 1);
 
     // rua da frente.
     glBindTexture(GL_TEXTURE_2D, texture_id[1]);
